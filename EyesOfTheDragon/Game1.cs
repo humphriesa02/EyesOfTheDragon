@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MGRpgLibrary;
 
 namespace EyesOfTheDragon
 {
@@ -13,7 +14,7 @@ namespace EyesOfTheDragon
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            Components.Add(new InputHandler(this));
         }
 
         protected override void Initialize()
