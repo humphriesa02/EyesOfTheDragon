@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MGRpgLibrary;
+using EyesOfTheDragon.GameScreens;
 
 namespace EyesOfTheDragon
 {
@@ -9,17 +10,42 @@ namespace EyesOfTheDragon
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        GameStateManager _gameStateManager;
+
+        public const int ScreenWidth = 1280;
+        public const int ScreenHeight = 720;
+
+        public readonly Rectangle ScreenRectangle = new Rectangle(
+            0,
+            0,
+            ScreenWidth,
+            ScreenHeight);
+
+        public SpriteBatch SpriteBatch { get { return _spriteBatch; } }
+        public TitleScreen TitleScreen { get; private set; }
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
+
             Components.Add(new InputHandler(this));
+
+            _gameStateManager = new GameStateManager(this);
+            Components.Add(_gameStateManager);
+
+            TitleScreen = new TitleScreen(this, _gameStateManager);
+
+            _gameStateManager.ChangeState(TitleScreen);
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _graphics.PreferredBackBufferWidth = ScreenWidth;
+            _graphics.PreferredBackBufferHeight = ScreenHeight;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
